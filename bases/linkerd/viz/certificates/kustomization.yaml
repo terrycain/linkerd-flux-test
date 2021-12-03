@@ -1,0 +1,4 @@
+namespace: linkerd-viz
+
+resources:
+  - tap-cert.yaml

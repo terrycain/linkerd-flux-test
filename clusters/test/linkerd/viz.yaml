@@ -1,0 +1,47 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: linkerd-viz-namespace
+  namespace: flux-system
+spec:
+  interval: 60m0s
+  path: ./bases/linkerd/viz/namespace
+  prune: true
+  dependsOn:
+    - name: linkerd-core-servicemesh
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: linkerd-viz-certificates
+  namespace: flux-system
+spec:
+  interval: 60m0s
+  path: ./bases/linkerd/viz/certificates
+  prune: true
+  dependsOn:
+    - name: linkerd-viz-namespace
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: linkerd-viz-deployment
+  namespace: flux-system
+spec:
+  interval: 60m0s
+  path: ./bases/linkerd/viz/viz
+  prune: true
+  dependsOn:
+    - name: linkerd-viz-certificates
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  validation: client
